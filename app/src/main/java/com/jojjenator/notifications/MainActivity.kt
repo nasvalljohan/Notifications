@@ -10,6 +10,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.EditText
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,11 +30,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val notiBtn = findViewById<Button>(R.id.notiButton)
+        val notificationBtn = findViewById<Button>(R.id.notiButton)
+        val firstName = findViewById<EditText>(R.id.editTextOne)
+        val lastName = findViewById<EditText>(R.id.editTextTwo)
 
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        notiBtn.setOnClickListener{
+        notificationBtn.setOnClickListener{
+            var contentTitle = firstName.text
+            var contentText = lastName.text
 
             // IF build is API 26 or higher, run this code.
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -49,8 +54,8 @@ class MainActivity : AppCompatActivity() {
 
                 // Build Notification
                 builder = Notification.Builder(this, channelId)
-                    .setContentTitle("This is Kotlin")
-                    .setContentText("Testing notification")
+                    .setContentTitle(contentTitle)
+                    .setContentText(contentText)
                     .setShowWhen(true)
                     .setColor(4)
                     .setSmallIcon(R.drawable.ic_launcher_foreground)
@@ -58,20 +63,17 @@ class MainActivity : AppCompatActivity() {
 
                 notificationManager.notify(0, builder.build())
 
-            } else {
+            }
+            else {
                 // For appcompat.
                 // https://developer.android.com/training/notify-user/build-notification#kotlin
                 // TODO App compat
-            }
+                }
         }
 
 
     }
 
-    //TODO Show notification via onClickListener (in method)
-    //TODO Make two editText components
-    //TODO Add button
-    //TODO when button is pressed, send input-strings to notification
 
 
 }

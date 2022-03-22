@@ -9,6 +9,7 @@ import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,44 +19,59 @@ class MainActivity : AppCompatActivity() {
     private lateinit var notificationManager: NotificationManager
     private lateinit var builder: Notification.Builder
 
-    // Hardcoded values, has to be strings
+    // Hardcoded values, has to be strings,
     private val channelId = "0"
-    private val description = "Welcome to our app"
+    private val description = "Welcome to our app" // Description shows in app-info.
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val notiBtn = findViewById<Button>(R.id.notiButton)
+
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        // IF build is API 26 or higher, run this code.
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            notificationChannel = NotificationChannel(
-                channelId, description, NotificationManager.IMPORTANCE_HIGH)
-            notificationChannel.enableLights(true)
-            notificationChannel.lightColor = Color.RED
-            notificationChannel.enableVibration(false)
+        notiBtn.setOnClickListener{
 
-            // Create Notification
-            notificationManager.createNotificationChannel(notificationChannel)
+            // IF build is API 26 or higher, run this code.
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                // Prepare notification
+                notificationChannel = NotificationChannel(
+                    channelId, description, NotificationManager.IMPORTANCE_HIGH)
+                notificationChannel.enableLights(true)
+                notificationChannel.lightColor = Color.RED
+                notificationChannel.enableVibration(false)
 
-            // Build Notification
-            builder = Notification.Builder(this, channelId)
-                .setContentTitle("This is Kotlin")
-                .setContentText("Testing notification")
-                .setShowWhen(true)
-                .setColor(4)
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
-                .setLargeIcon(BitmapFactory.decodeResource(this.resources, R.drawable.ic_launcher_foreground))
+                // Create Notification
+                notificationManager.createNotificationChannel(notificationChannel)
 
-            notificationManager.notify(0, builder.build())
+                // Build Notification
+                builder = Notification.Builder(this, channelId)
+                    .setContentTitle("This is Kotlin")
+                    .setContentText("Testing notification")
+                    .setShowWhen(true)
+                    .setColor(4)
+                    .setSmallIcon(R.drawable.ic_launcher_foreground)
+                    .setLargeIcon(BitmapFactory.decodeResource(this.resources, R.drawable.ic_launcher_foreground))
 
-        } else {
-            // For appcompat.
-            // https://developer.android.com/training/notify-user/build-notification#kotlin
-            // TODO App compat
+                notificationManager.notify(0, builder.build())
+
+            } else {
+                // For appcompat.
+                // https://developer.android.com/training/notify-user/build-notification#kotlin
+                // TODO App compat
+            }
         }
+
+
     }
+
+    //TODO Show notification via onClickListener (in method)
+    //TODO Make two editText components
+    //TODO Add button
+    //TODO when button is pressed, send input-strings to notification
 
 
 }

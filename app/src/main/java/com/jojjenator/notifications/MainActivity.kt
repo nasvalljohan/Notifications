@@ -37,8 +37,8 @@ class MainActivity : AppCompatActivity() {
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         notificationBtn.setOnClickListener{
-            var contentTitle = firstName.text
-            var contentText = lastName.text
+            val contentTitle = firstName.text
+            val contentText = lastName.text
 
             // IF build is API 26 or higher, run this code.
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
